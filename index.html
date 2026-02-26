@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursor Learning Guide for Business Analysts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 4px;
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            height: 12px;
+            background: linear-gradient(90deg, #00d4ff, #7c3aed);
+            border-radius: 20px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            text-align: center;
+            margin-top: 8px;
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Navigation Tabs */
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .nav-tab {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.1);
+            transform: translateY(-2px);
+        }
+
+        .nav-tab.active {
+            background: linear-gradient(135deg, #7c3aed, #00d4ff);
+            border-color: transparent;
+            color: white;
+        }
+
+        .nav-tab.completed {
+            position: relative;
+        }
+
+        .nav-tab.completed::after {
+            content: '✓';
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #10b981;
+            color: white;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Lesson Content */
+        .lesson {
+            display: none;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .lesson.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .lesson h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #00d4ff;
+        }
+
+        .lesson-intro {
+            background: rgba(124, 58, 237, 0.1);
+            border-left: 4px solid #7c3aed;
+            padding: 15px 20px;
+            border-radius: 0 10px 10px 0;
+            margin-bottom: 25px;
+        }
+
+        /* Concept Cards */
+        .concept-card {
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .concept-card h3 {
+            color: #f0abfc;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .concept-card p {
+            line-height: 1.7;
+            color: #d1d5db;
+        }
+
+        /* Keyboard Shortcut Display */
+        .shortcut {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin: 5px 0;
+        }
+
+        kbd {
+            background: linear-gradient(145deg, #2d2d3d, #1a1a2e);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            padding: 5px 10px;
+            font-family: 'SF Mono', Monaco, monospace;
+            font-size: 0.85rem;
+            color: #00d4ff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        /* Visual Diagram */
+        .diagram {
+            background: rgba(0,0,0,0.3);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .diagram-title {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+
+        .cursor-layout {
+            display: grid;
+            grid-template-columns: 200px 1fr 250px;
+            gap: 10px;
+            min-height: 300px;
+        }
+
+        .layout-panel {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            border: 2px dashed rgba(255,255,255,0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .layout-panel:hover {
+            border-color: #00d4ff;
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .layout-panel.highlighted {
+            border-color: #7c3aed;
+            background: rgba(124, 58, 237, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(124, 58, 237, 0.4); }
+            50% { box-shadow: 0 0 20px 5px rgba(124, 58, 237, 0.2); }
+        }
+
+        .panel-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .panel-name {
+            font-weight: 600;
+            color: #e0e0e0;
+            margin-bottom: 5px;
+        }
+
+        .panel-desc {
+            font-size: 0.8rem;
+            color: #9ca3af;
+            text-align: center;
+        }
+
+        /* Interactive Quiz */
+        .quiz-section {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 25px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .quiz-section h3 {
+            color: #10b981;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .quiz-question {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .quiz-option {
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+
+        .quiz-option:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: rgba(255,255,255,0.2);
+        }
+
+        .quiz-option.correct {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: #10b981;
+        }
+
+        .quiz-option.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: #ef4444;
+        }
+
+        .quiz-feedback {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .quiz-feedback.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .quiz-feedback.correct {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .quiz-feedback.incorrect {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+        }
+
+        /* Tips Box */
+        .tip-box {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.1), rgba(124, 58, 237, 0.1));
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .tip-box h4 {
+            color: #00d4ff;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Step-by-step Guide */
+        .steps {
+            counter-reset: step;
+        }
+
+        .step {
+            position: relative;
+            padding-left: 60px;
+            margin-bottom: 25px;
+        }
+
+        .step::before {
+            counter-increment: step;
+            content: counter(step);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #7c3aed, #00d4ff);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .step h4 {
+            color: #f0abfc;
+            margin-bottom: 8px;
+        }
+
+        .step p {
+            color: #d1d5db;
+            line-height: 1.6;
+        }
+
+        /* Navigation Buttons */
+        .lesson-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .nav-btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            border: none;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn.prev {
+            background: rgba(255,255,255,0.1);
+            color: #e0e0e0;
+        }
+
+        .nav-btn.next {
+            background: linear-gradient(135deg, #7c3aed, #00d4ff);
+            color: white;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(124, 58, 237, 0.3);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Cheat Sheet */
+        .cheat-sheet {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .cheat-item {
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .cheat-item .action {
+            color: #9ca3af;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cursor-layout {
+                grid-template-columns: 1fr;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .nav-tabs {
+                flex-direction: column;
+            }
+            
+            .nav-tab {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎓 Cursor for Business Analysts</h1>
+            <p class="subtitle">Learn the essentials — no coding required!</p>
+        </header>
+
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        <p class="progress-text" id="progressText">0 of 6 lessons completed</p>
+
+        <div class="nav-tabs">
+            <div class="nav-tab active" data-lesson="0">1. What is Cursor?</div>
+            <div class="nav-tab" data-lesson="1">2. The Interface</div>
+            <div class="nav-tab" data-lesson="2">3. Talking to AI</div>
+            <div class="nav-tab" data-lesson="3">4. Essential Shortcuts</div>
+            <div class="nav-tab" data-lesson="4">5. Common Tasks</div>
+            <div class="nav-tab" data-lesson="5">6. Cheat Sheet</div>
+        </div>
+
+        <!-- Lesson 1: What is Cursor? -->
+        <div class="lesson active" data-lesson="0">
+            <h2>What is Cursor?</h2>
+            
+            <div class="lesson-intro">
+                <strong>Think of Cursor as your AI-powered assistant</strong> that lives inside a code editor. 
+                But here's the key insight: <em>you don't need to write code to use it!</em>
+            </div>
+
+            <div class="concept-card">
+                <h3>📝 The Simple Explanation</h3>
+                <p>
+                    Cursor is like having a very smart colleague who can:
+                </p>
+                <ul style="margin-top: 10px; margin-left: 20px; line-height: 2;">
+                    <li>Read and understand files</li>
+                    <li>Search through your project</li>
+                    <li>Write SQL queries for you</li>
+                    <li>Create documents and reports</li>
+                    <li>Analyze data and explain findings</li>
+                    <li>Connect to your company's tools (like databases)</li>
+                </ul>
+            </div>
+
+            <div class="concept-card">
+                <h3>🎯 Why BAs Use Cursor</h3>
+                <p>
+                    You're here because Cursor gives you superpowers:
+                </p>
+                <ul style="margin-top: 10px; margin-left: 20px; line-height: 2;">
+                    <li><strong>Ask questions in plain English</strong> — no coding syntax needed</li>
+                    <li><strong>Get SQL queries written for you</strong> — just describe what you need</li>
+                    <li><strong>Access company data</strong> — through connected tools and databases</li>
+                    <li><strong>Create reports & visualizations</strong> — AI does the heavy lifting</li>
+                </ul>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Key Mindset Shift</h4>
+                <p>
+                    You don't need to understand the code in the editor area. Your main interaction is through 
+                    <strong>the chat panel</strong> — where you type questions and requests in plain English, 
+                    just like chatting with a colleague.
+                </p>
+            </div>
+
+            <div class="quiz-section">
+                <h3>✅ Quick Check</h3>
+                <p class="quiz-question">What's the main way you'll interact with Cursor as a BA?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">Writing Python code</div>
+                    <div class="quiz-option" data-correct="true">Typing questions in the chat panel</div>
+                    <div class="quiz-option" data-correct="false">Using complex keyboard shortcuts</div>
+                </div>
+                <div class="quiz-feedback" id="quiz0-feedback"></div>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" disabled>← Previous</button>
+                <button class="nav-btn next" onclick="nextLesson()">Next: The Interface →</button>
+            </div>
+        </div>
+
+        <!-- Lesson 2: The Interface -->
+        <div class="lesson" data-lesson="1">
+            <h2>Understanding the Interface</h2>
+            
+            <div class="lesson-intro">
+                The Cursor window has <strong>3 main areas</strong>. As a BA, you'll mainly use 
+                the sidebar and chat panel. Let's explore each one.
+            </div>
+
+            <div class="diagram">
+                <p class="diagram-title">Click each panel to learn more</p>
+                <div class="cursor-layout">
+                    <div class="layout-panel" id="panel-sidebar" onclick="highlightPanel('sidebar')">
+                        <div class="panel-icon">📁</div>
+                        <div class="panel-name">Sidebar</div>
+                        <div class="panel-desc">File explorer & navigation</div>
+                    </div>
+                    <div class="layout-panel" id="panel-editor" onclick="highlightPanel('editor')">
+                        <div class="panel-icon">📄</div>
+                        <div class="panel-name">Editor Area</div>
+                        <div class="panel-desc">Where files are displayed</div>
+                    </div>
+                    <div class="layout-panel" id="panel-chat" onclick="highlightPanel('chat')">
+                        <div class="panel-icon">💬</div>
+                        <div class="panel-name">Chat Panel</div>
+                        <div class="panel-desc">Your AI conversation</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card" id="info-sidebar" style="display: none;">
+                <h3>📁 Sidebar (Left)</h3>
+                <p>
+                    This shows your files and folders, like Finder on Mac or Explorer on Windows. 
+                    You can click on files to open them. As a BA, you might use this to:
+                </p>
+                <ul style="margin-top: 10px; margin-left: 20px; line-height: 1.8;">
+                    <li>Find SQL files or documentation</li>
+                    <li>Navigate to reports or analysis files</li>
+                    <li>See what files exist in a project</li>
+                </ul>
+            </div>
+
+            <div class="concept-card" id="info-editor" style="display: none;">
+                <h3>📄 Editor Area (Middle)</h3>
+                <p>
+                    This is where file contents are displayed. Don't worry about understanding everything here! 
+                    When you ask the AI to create something (like a SQL query), it appears here. 
+                    You can also see results and outputs in this area.
+                </p>
+                <p style="margin-top: 10px; color: #10b981;">
+                    <strong>Pro tip:</strong> You don't need to edit code here — just ask the AI in chat!
+                </p>
+            </div>
+
+            <div class="concept-card" id="info-chat" style="display: none;">
+                <h3>💬 Chat Panel (Right) — YOUR MAIN AREA!</h3>
+                <p>
+                    <strong>This is where you spend most of your time!</strong> Think of it as messaging a smart colleague:
+                </p>
+                <ul style="margin-top: 10px; margin-left: 20px; line-height: 1.8;">
+                    <li>Ask questions about data</li>
+                    <li>Request SQL queries</li>
+                    <li>Get explanations of reports</li>
+                    <li>Ask for help with analysis</li>
+                </ul>
+                <p style="margin-top: 15px; padding: 10px; background: rgba(0,212,255,0.1); border-radius: 8px;">
+                    <strong>How to open:</strong> Press <kbd>⌘</kbd> + <kbd>I</kbd> (Mac) or <kbd>Ctrl</kbd> + <kbd>I</kbd> (Windows)
+                </p>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Remember</h4>
+                <p>
+                    The chat panel on the right is your command center. Everything you need as a BA 
+                    can be done through natural conversation there. The other areas are just for 
+                    viewing results and files.
+                </p>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" onclick="prevLesson()">← Previous</button>
+                <button class="nav-btn next" onclick="nextLesson()">Next: Talking to AI →</button>
+            </div>
+        </div>
+
+        <!-- Lesson 3: Talking to AI -->
+        <div class="lesson" data-lesson="2">
+            <h2>Talking to the AI</h2>
+            
+            <div class="lesson-intro">
+                The AI in Cursor (me! 👋) understands plain English. Here's how to communicate effectively.
+            </div>
+
+            <div class="concept-card">
+                <h3>🗣️ How to Ask Questions</h3>
+                <p>Just type naturally! Here are real examples:</p>
+                <div style="background: rgba(0,0,0,0.3); padding: 15px; border-radius: 10px; margin-top: 15px; font-family: monospace;">
+                    <p style="color: #00d4ff; margin-bottom: 10px;">"How many premium users signed up last month?"</p>
+                    <p style="color: #00d4ff; margin-bottom: 10px;">"Write a SQL query to find top 10 sites by revenue"</p>
+                    <p style="color: #00d4ff; margin-bottom: 10px;">"Explain what this table contains"</p>
+                    <p style="color: #00d4ff;">"Create a summary of the churn analysis"</p>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>@ Mentions — Your Secret Weapon</h3>
+                <p>
+                    Use the <strong>@</strong> symbol to reference specific things. This helps the AI understand context:
+                </p>
+                <div style="margin-top: 15px;">
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                        <kbd>@filename</kbd>
+                        <span>→ Reference a specific file</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; margin-bottom: 10px; align-items: center;">
+                        <kbd>@folder/</kbd>
+                        <span>→ Reference a folder</span>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <kbd>@web</kbd>
+                        <span>→ Search the internet</span>
+                    </div>
+                </div>
+                <div style="background: rgba(124,58,237,0.1); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <strong>Example:</strong> "Analyze @sales_report.sql and explain what metrics it calculates"
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>🎯 Tips for Better Results</h3>
+                <div class="steps">
+                    <div class="step">
+                        <h4>Be Specific</h4>
+                        <p>Instead of "show me data", try "show me monthly active users for Q4 2024"</p>
+                    </div>
+                    <div class="step">
+                        <h4>Provide Context</h4>
+                        <p>Mention the table name, date range, or business context</p>
+                    </div>
+                    <div class="step">
+                        <h4>Ask Follow-ups</h4>
+                        <p>Say "can you also add the comparison to last year?" to refine results</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h3>✅ Quick Check</h3>
+                <p class="quiz-question">How do you reference a specific file in your question?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">Put the filename in quotes</div>
+                    <div class="quiz-option" data-correct="true">Use @ before the filename</div>
+                    <div class="quiz-option" data-correct="false">Paste the file contents</div>
+                </div>
+                <div class="quiz-feedback" id="quiz2-feedback"></div>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" onclick="prevLesson()">← Previous</button>
+                <button class="nav-btn next" onclick="nextLesson()">Next: Essential Shortcuts →</button>
+            </div>
+        </div>
+
+        <!-- Lesson 4: Essential Shortcuts -->
+        <div class="lesson" data-lesson="3">
+            <h2>Essential Shortcuts</h2>
+            
+            <div class="lesson-intro">
+                You only need to remember <strong>3 shortcuts</strong>. That's it! Everything else you can discover as you go.
+            </div>
+
+            <div class="concept-card" style="background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(124, 58, 237, 0.15));">
+                <h3>🌟 The Big 3 (Memorize These!)</h3>
+                
+                <div style="margin-top: 20px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 15px;">
+                        <div>
+                            <strong style="color: #00d4ff; font-size: 1.1rem;">Open Chat Panel</strong>
+                            <p style="color: #9ca3af; margin-top: 5px;">Start a conversation with AI</p>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>⌘</kbd> + <kbd>I</kbd>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px; margin-bottom: 15px;">
+                        <div>
+                            <strong style="color: #00d4ff; font-size: 1.1rem;">Quick Search</strong>
+                            <p style="color: #9ca3af; margin-top: 5px;">Find files, commands, anything</p>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>⌘</kbd> + <kbd>P</kbd>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 15px; background: rgba(0,0,0,0.2); border-radius: 10px;">
+                        <div>
+                            <strong style="color: #00d4ff; font-size: 1.1rem;">Command Palette</strong>
+                            <p style="color: #9ca3af; margin-top: 5px;">Access all Cursor features</p>
+                        </div>
+                        <div class="shortcut">
+                            <kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Windows Users</h4>
+                <p>Replace <kbd>⌘</kbd> with <kbd>Ctrl</kbd> for all shortcuts!</p>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔍 Using Quick Search (⌘ + P)</h3>
+                <p>This is like Spotlight on Mac — just start typing and it finds things:</p>
+                <ul style="margin-top: 10px; margin-left: 20px; line-height: 2;">
+                    <li>Type a filename → Opens that file</li>
+                    <li>Type part of a name → Shows matching files</li>
+                    <li>Type <code>&gt;</code> first → Shows commands (same as ⌘ + Shift + P)</li>
+                </ul>
+            </div>
+
+            <div class="quiz-section">
+                <h3>✅ Quick Check</h3>
+                <p class="quiz-question">Which shortcut opens the AI chat panel?</p>
+                <div class="quiz-options">
+                    <div class="quiz-option" data-correct="false">⌘ + P</div>
+                    <div class="quiz-option" data-correct="true">⌘ + I</div>
+                    <div class="quiz-option" data-correct="false">⌘ + Shift + P</div>
+                </div>
+                <div class="quiz-feedback" id="quiz3-feedback"></div>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" onclick="prevLesson()">← Previous</button>
+                <button class="nav-btn next" onclick="nextLesson()">Next: Common Tasks →</button>
+            </div>
+        </div>
+
+        <!-- Lesson 5: Common Tasks -->
+        <div class="lesson" data-lesson="4">
+            <h2>Common BA Tasks in Cursor</h2>
+            
+            <div class="lesson-intro">
+                Here's how to do the things you'll actually need to do as a business analyst.
+            </div>
+
+            <div class="concept-card">
+                <h3>📊 Task 1: Get Data Insights</h3>
+                <div class="steps">
+                    <div class="step">
+                        <h4>Open the chat</h4>
+                        <p>Press <kbd>⌘</kbd> + <kbd>I</kbd></p>
+                    </div>
+                    <div class="step">
+                        <h4>Ask your question</h4>
+                        <p>"What were our total premium conversions last month broken down by platform?"</p>
+                    </div>
+                    <div class="step">
+                        <h4>Review & refine</h4>
+                        <p>Ask follow-ups like "Can you also show the trend over 6 months?"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>🔍 Task 2: Understand a Table</h3>
+                <div class="steps">
+                    <div class="step">
+                        <h4>Reference the table</h4>
+                        <p>"What columns are in the @users_premium table and what do they mean?"</p>
+                    </div>
+                    <div class="step">
+                        <h4>Get details</h4>
+                        <p>"How is this table typically used? What joins are common?"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>📝 Task 3: Write SQL Queries</h3>
+                <div class="steps">
+                    <div class="step">
+                        <h4>Describe what you need</h4>
+                        <p>"Write a SQL query to find the top 10 accounts by revenue this year"</p>
+                    </div>
+                    <div class="step">
+                        <h4>Review the query</h4>
+                        <p>The AI will write the SQL and explain it</p>
+                    </div>
+                    <div class="step">
+                        <h4>Ask for modifications</h4>
+                        <p>"Add a filter for only active accounts" or "Group by region too"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="concept-card">
+                <h3>📈 Task 4: Create Reports or Visualizations</h3>
+                <div class="steps">
+                    <div class="step">
+                        <h4>Describe what you want</h4>
+                        <p>"Create an HTML presentation showing our Q4 performance metrics"</p>
+                    </div>
+                    <div class="step">
+                        <h4>Provide context</h4>
+                        <p>Reference data: "@sales_data.csv — create charts from this data"</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="tip-box">
+                <h4>💡 Pro Tips</h4>
+                <ul style="margin-top: 10px; line-height: 2;">
+                    <li><strong>Don't be shy:</strong> Ask "can you explain that simpler?" if confused</li>
+                    <li><strong>Iterate:</strong> Start simple, then add complexity in follow-ups</li>
+                    <li><strong>Save time:</strong> Ask the AI to create templates you can reuse</li>
+                </ul>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" onclick="prevLesson()">← Previous</button>
+                <button class="nav-btn next" onclick="nextLesson()">Next: Cheat Sheet →</button>
+            </div>
+        </div>
+
+        <!-- Lesson 6: Cheat Sheet -->
+        <div class="lesson" data-lesson="5">
+            <h2>Your Cursor Cheat Sheet</h2>
+            
+            <div class="lesson-intro">
+                Bookmark this page! Here's everything you need in one place.
+            </div>
+
+            <h3 style="color: #00d4ff; margin-bottom: 15px;">⌨️ Essential Shortcuts</h3>
+            <div class="cheat-sheet">
+                <div class="cheat-item">
+                    <div class="action">Open AI Chat</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>I</kbd></div>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Find Files</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>P</kbd></div>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">All Commands</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd></div>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Toggle Sidebar</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>B</kbd></div>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">New Chat</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>N</kbd></div>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Close Tab</div>
+                    <div class="shortcut"><kbd>⌘</kbd> + <kbd>W</kbd></div>
+                </div>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 25px 0 15px;">@ Mentions Reference</h3>
+            <div class="cheat-sheet">
+                <div class="cheat-item">
+                    <div class="action">Reference a file</div>
+                    <code style="color: #f0abfc;">@filename.sql</code>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Reference a folder</div>
+                    <code style="color: #f0abfc;">@folder/</code>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Web search</div>
+                    <code style="color: #f0abfc;">@web</code>
+                </div>
+                <div class="cheat-item">
+                    <div class="action">Documentation</div>
+                    <code style="color: #f0abfc;">@docs</code>
+                </div>
+            </div>
+
+            <h3 style="color: #00d4ff; margin: 25px 0 15px;">💬 Example Prompts for BAs</h3>
+            <div style="background: rgba(0,0,0,0.3); padding: 20px; border-radius: 15px;">
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <strong style="color: #10b981;">Data Questions:</strong>
+                    <p style="color: #d1d5db; margin-top: 5px;">"How many users converted to premium last week?"</p>
+                </div>
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <strong style="color: #10b981;">SQL Help:</strong>
+                    <p style="color: #d1d5db; margin-top: 5px;">"Write a query to find average order value by country"</p>
+                </div>
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <strong style="color: #10b981;">Understanding Data:</strong>
+                    <p style="color: #d1d5db; margin-top: 5px;">"Explain what the @fact_orders table contains"</p>
+                </div>
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                    <strong style="color: #10b981;">Analysis:</strong>
+                    <p style="color: #d1d5db; margin-top: 5px;">"Analyze churn patterns from @churn_data and summarize findings"</p>
+                </div>
+                <div>
+                    <strong style="color: #10b981;">Visualization:</strong>
+                    <p style="color: #d1d5db; margin-top: 5px;">"Create a chart showing monthly revenue trends"</p>
+                </div>
+            </div>
+
+            <div class="tip-box" style="margin-top: 25px;">
+                <h4>🎉 Congratulations!</h4>
+                <p>
+                    You've completed the Cursor basics! Remember: the chat panel is your best friend. 
+                    Just open it with <kbd>⌘</kbd> + <kbd>I</kbd> and ask me anything. I'm here to help!
+                </p>
+            </div>
+
+            <div style="text-align: center; margin-top: 30px;">
+                <button class="nav-btn next" onclick="resetProgress()" style="background: rgba(255,255,255,0.1); color: #e0e0e0;">
+                    🔄 Restart Tutorial
+                </button>
+            </div>
+
+            <div class="lesson-nav">
+                <button class="nav-btn prev" onclick="prevLesson()">← Previous</button>
+                <button class="nav-btn next" disabled>Complete! 🎉</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLesson = 0;
+        let completedLessons = new Set();
+        const totalLessons = 6;
+
+        function updateProgress() {
+            const progress = (completedLessons.size / totalLessons) * 100;
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = 
+                `${completedLessons.size} of ${totalLessons} lessons completed`;
+        }
+
+        function showLesson(index) {
+            document.querySelectorAll('.lesson').forEach(l => l.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+            
+            document.querySelector(`.lesson[data-lesson="${index}"]`).classList.add('active');
+            document.querySelector(`.nav-tab[data-lesson="${index}"]`).classList.add('active');
+            
+            currentLesson = index;
+        }
+
+        function nextLesson() {
+            completedLessons.add(currentLesson);
+            document.querySelector(`.nav-tab[data-lesson="${currentLesson}"]`).classList.add('completed');
+            updateProgress();
+            
+            if (currentLesson < totalLessons - 1) {
+                showLesson(currentLesson + 1);
+            }
+        }
+
+        function prevLesson() {
+            if (currentLesson > 0) {
+                showLesson(currentLesson - 1);
+            }
+        }
+
+        function resetProgress() {
+            completedLessons.clear();
+            document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('completed'));
+            updateProgress();
+            showLesson(0);
+        }
+
+        // Tab click handlers
+        document.querySelectorAll('.nav-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                showLesson(parseInt(tab.dataset.lesson));
+            });
+        });
+
+        // Quiz functionality
+        document.querySelectorAll('.quiz-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const parent = this.closest('.quiz-section');
+                const options = parent.querySelectorAll('.quiz-option');
+                const feedback = parent.querySelector('.quiz-feedback');
+                
+                options.forEach(o => o.classList.remove('correct', 'incorrect'));
+                
+                if (this.dataset.correct === 'true') {
+                    this.classList.add('correct');
+                    feedback.textContent = '✅ Correct! Great job!';
+                    feedback.className = 'quiz-feedback show correct';
+                } else {
+                    this.classList.add('incorrect');
+                    feedback.textContent = '❌ Not quite. Try again!';
+                    feedback.className = 'quiz-feedback show incorrect';
+                }
+            });
+        });
+
+        // Panel highlighting
+        function highlightPanel(panel) {
+            document.querySelectorAll('.layout-panel').forEach(p => p.classList.remove('highlighted'));
+            document.querySelectorAll('[id^="info-"]').forEach(i => i.style.display = 'none');
+            
+            document.getElementById(`panel-${panel}`).classList.add('highlighted');
+            document.getElementById(`info-${panel}`).style.display = 'block';
+        }
+    </script>
+</body>
+</html>
